@@ -66,6 +66,16 @@ export default function LoginForm() {
       </a>
 
       <button type="submit">Entrar</button>
+
+      <p style={{ textAlign: "center", fontSize: "13px", marginTop: "15px", color: "#cbd5d8" }}>
+        Não tem uma conta?{""}
+        <span
+         onClick={() => navigate("/register")}
+         style={{ color: "#1e3a8a",  cursor: "pointer" }}
+         >
+            Cadastrar
+         </span>
+      </p>
     </form>
   );
 }
