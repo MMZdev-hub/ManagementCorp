@@ -61,7 +61,7 @@ export default function Dashboard() {
             <main className="dashboard-content">
                 <div className="dashboard-title">
                     <span>Gestão de Auditorias</span>
-                    <button className="btn-add">+</button>
+                    <button className="btn-add" onClick={() => navigate("/auditorias/nova")}>+</button>
                 </div>
 
                 <div className="dashboard-panel">
