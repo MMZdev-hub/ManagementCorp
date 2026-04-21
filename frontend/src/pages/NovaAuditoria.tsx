@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/nova-auditoria.css";
+import { criarAuditoria } from "../services/auditoriaService";
 
 export default function NovaAuditoria() {
     const navigate = useNavigate();
@@ -18,9 +19,23 @@ export default function NovaAuditoria() {
         setForm({ ...form, [e.target.name]: e.target.value });
     }
 
-    function handleSalvar() {
-        console.log("auditoria salva:", form);
-        navigate("/dashboard");
+    async function handleSalvar() {
+        try {
+            await criarAuditoria({
+                nome: form.nome,
+                dataInicio: form.dataInicio,
+                responsavel: form.responsavel,
+                prazo: form.prazo,
+                setor: form.setor,
+                objetivo: form.objetivo,
+                status: "Pendentes"
+            });
+            alert("Auditori Salva com sucesso!");
+            navigate("/dashboard");
+        } catch (error) {
+            alert("Erro ao salvar auditoria!");
+            console.error(error);
+        }
     }
 
     return (
@@ -101,7 +116,7 @@ export default function NovaAuditoria() {
                         <div className="form-group">
                             <label>Objetivo da Auditoria</label>
                             <input
-                                name="Objetivo"
+                                name="objetivo"
                                 placeholder="Digite aqui"
                                 onChange={handleChange}
                             />

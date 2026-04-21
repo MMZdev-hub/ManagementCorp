@@ -1,4 +1,6 @@
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { ListaAuditorias, type Auditoria } from "../services/auditoriaService";
 import "../styles/dashboard.css";
 import {
     PieChart, Pie, Cell, Tooltip,
@@ -23,6 +25,20 @@ const barData = [
 export default function Dashboard() {
     const navigate = useNavigate();
     const email = localStorage.getItem("token") ? "Filipe Santos" : "Usuário";
+    const [auditorias, setAuditorias] = useState<Auditoria[]>([]);
+
+    useEffect(() => {
+        ListaAuditorias()
+            .then(data => {
+                console.log("Auditorias Recevidas:", data);
+                setAuditorias(data);
+            })
+            .catch(err => console.error("Erro ao buscar auditorias:", err));
+    }, []);
+
+    const concluidas = auditorias.filter(a => a.status === "Concluída").length;
+    const emAndamento= auditorias.filter(a => a.status === "Em Andamento").length;
+    const pendentes = auditorias.filter(a => a.status === "Pendente").length;
 
     function handleLogout() {
         localStorage.removeItem("token");
@@ -61,7 +77,7 @@ export default function Dashboard() {
             <main className="dashboard-content">
                 <div className="dashboard-title">
                     <span>Gestão de Auditorias</span>
-                    <button className="btn-add" onClick={() => navigate("/auditorias/nova")}>+</button>
+                    <button className="btn-add" onClick={() => navigate("/auditoria/nova")}>+</button>
                 </div>
 
                 <div className="dashboard-panel">
@@ -70,15 +86,15 @@ export default function Dashboard() {
                     <div className="cards-column">
                         <div className="status-card green">
                             <h3>Concluídas</h3>
-                            <p>12</p>
+                            <p>{concluidas}</p>
                         </div>
                         <div className="status-card yellow">
                             <h3>Em Andamento</h3>
-                            <p>4</p>
+                            <p>{emAndamento}</p>
                         </div>
                         <div className="status-card red">
                             <h3>Pendentes</h3>
-                            <p>6</p>
+                            <p>{pendentes}</p>
                         </div>
                     </div>
 
