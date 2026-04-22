@@ -24,7 +24,7 @@ const barData = [
 
 export default function Dashboard() {
     const navigate = useNavigate();
-    const email = localStorage.getItem("token") ? "Filipe Santos" : "Usuário";
+    const email = localStorage.getItem("token") ? "Caíque Lima" : "Usuário";
     const [auditorias, setAuditorias] = useState<Auditoria[]>([]);
 
     useEffect(() => {

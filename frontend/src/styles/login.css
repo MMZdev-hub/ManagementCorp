@@ -87,3 +87,19 @@ body {
     font-size: 13px;
     margin-bottom: 10px;
   }
+
+  .register-page{
+    height: 100vh;
+    background: #6f8f95;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .register-card{
+    width: 400px;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0px 10px 25px rgba(0,0,0,0.3);
+    background: #4f6d73;
+  }

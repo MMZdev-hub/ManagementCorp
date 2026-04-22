@@ -18,6 +18,7 @@
     align-items: center;
     padding: 10px 24px;
     gap: 16px;
+    padding-left: 80px;
 }
 
 .header-user {

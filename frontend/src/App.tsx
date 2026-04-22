@@ -5,6 +5,7 @@ import Dashboard from "./pages/Dashboard";
 import PrivateRoute from "./routes/PrivateRoute";
 import NovaAuditoria from "./pages/NovaAuditoria";
 import Processos from "./pages/Processos";
+import Permissoes from "./pages/Permissoes";
 
 function App() {
   return (
@@ -21,6 +22,11 @@ function App() {
         <Route path="/processos" element={
           <PrivateRoute>
             <Processos />
+          </PrivateRoute>
+        } />
+        <Route path="/permissoes" element={
+          <PrivateRoute>
+            <Permissoes />
           </PrivateRoute>
         } />
 
