@@ -20,7 +20,16 @@ public class JwtFilter extends OncePerRequestFilter {
     private JwtService jwtService;
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, 
+    protected boolean shouldNotFilter(HttpServletRequest request) {
+        String path = request.getRequestURI();
+        return path.startsWith("/auth/") ||
+               path.startsWith("/h2-console") ||
+               path.startsWith("/users") ||
+               path.startsWith("/auditorias");
+    }
+
+    @Override
+    protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain)
             throws ServletException, IOException {
@@ -33,11 +42,13 @@ public class JwtFilter extends OncePerRequestFilter {
             if (jwtService.validateToken(token)) {
                 String email = jwtService.extractEmail(token);
 
-                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(email, null, List.of());
+                UsernamePasswordAuthenticationToken authentication =
+                    new UsernamePasswordAuthenticationToken(email, null, List.of());
+
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         }
-        
+
         filterChain.doFilter(request, response);
     }
 }

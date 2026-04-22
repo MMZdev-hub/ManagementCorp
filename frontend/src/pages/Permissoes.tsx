@@ -1,14 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { listarUsuarios, toggleAcesso, type Usuario } from "../services/userService";
 import "../styles/permissoes.css";
-
-interface Usuario {
-    id: number;
-    email: string;
-    perfil: string;
-    permissoes: string;
-    acesso: boolean;
-}
 
 interface Atividade {
     id: number;
@@ -17,12 +10,6 @@ interface Atividade {
     data: string;
 }
 
-const usuariosIniciais: Usuario[] = [
-    { id: 1, email: "ebert@mcorp.com", perfil: "Administrador", permissoes: "ON", acesso: true },
-    { id: 2, email: "emanuel@mcorp.com", perfil: "Auditor", permissoes: "ON", acesso: true },
-    { id: 3, email: "aluiz@mcorp.com", perfil: "Colaborador", permissoes: "OFF", acesso: false },
-];
-
 const atividadesIniciais: Atividade[] = [
     { id: 1, nome: "Ana Maria", acao: "Editou auditoria nº45632", data: "24 de Apr. 2024" },
     { id: 2, nome: "Marcos Antônio", acao: "Excluiu Auditoria nº22541", data: "10 de Jan. 2024" },
@@ -30,12 +17,24 @@ const atividadesIniciais: Atividade[] = [
 
 export default function Permissoes() {
     const navigate = useNavigate();
-    const [usuarios, setUsuarios] = useState<Usuario[]>(usuariosIniciais);
+    const [usuarios, setUsuarios] = useState<Usuario[]>([]);
 
-    function toggleAcesso(id: number) {
-        setUsuarios(prev =>
-            prev.map(U => U.id === id ? { ...U, acessp: !U.acesso } : U)
-        );
+    useEffect(() => {
+        listarUsuarios()
+            .then(setUsuarios)
+            .catch(err => console.error("Erro ao buscar usuários:", err));
+    }, []);
+
+   async function handleToggle(id: number) {
+        try {
+            const autalizado = await toggleAcesso(id);
+            setUsuarios(prev =>
+                prev.map(U => U.id === id ? { ...U, acesso: autalizado.acesso, permissoes: autalizado.permissoes } : U)
+            );
+        } catch (err) {
+            console.error("Erro ao atualizar acesso:", err);
+        }
+        
     }
 
     return (
@@ -45,7 +44,7 @@ export default function Permissoes() {
               <header className="dashboard-header">
                 <div className="header-user">
                     <div className="header-avatar">👤</div>
-                    <span className="header-username">Filipe Santos</span>
+                    <span className="header-username">Caíque Lima</span>
                 </div>
                 <nav className="header-nav">
                     <a onClick={() => navigate("/dashboard")} style={{ cursor: "pointer" }}>Início</a>
@@ -66,6 +65,9 @@ export default function Permissoes() {
                 <div className="permissoes-card">
                     <h2 className="permissoes-title">Controle de Usuários</h2>
 
+                    {usuarios.length === 0 ? (
+                        <p style={{ color: "#cbd5d8" }}>Nenhum usuário cadastrado ainda.</p>
+                    ) : (
                     <table  className="usuarios-table">
                         <thead>
                             <tr>
@@ -79,12 +81,12 @@ export default function Permissoes() {
                             {usuarios.map(u => (
                                 <tr key={u.id}>
                                     <td>{u.email}</td>
-                                    <td>{u.perfil}</td>
-                                    <td>{u.permissoes}</td>
+                                    <td>{u.perfil || "—"}</td>
+                                    <td>{u.permissoes || "ON"}</td>
                                     <td>
                                         <div 
                                             className={`toggle ${u.acesso ? "on" : "off"}`}
-                                            onClick={() => toggleAcesso(u.id)}
+                                            onClick={() => handleToggle(u.id)}
                                         >
                                             <div className="toggle-ball" />
                                         </div>
@@ -93,6 +95,7 @@ export default function Permissoes() {
                             ))}
                         </tbody>
                     </table>
+                    )}
                 </div>
 
                 {/* Registro de Atividades */}
