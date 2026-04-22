@@ -57,7 +57,7 @@ export default function Dashboard() {
 
                 <nav className="header-nav">
                     <a href="#">Início</a>
-                    <a href="#">Processos</a>
+                    <a onClick={() => navigate("/processos")} style={{cursor: "pointer"}}>Processos</a>
                     <a href="#">Planos de Ação</a>
                     <a href="#">Auditoria Interna</a>
                 </nav>

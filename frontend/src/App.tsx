@@ -4,6 +4,7 @@ import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import PrivateRoute from "./routes/PrivateRoute";
 import NovaAuditoria from "./pages/NovaAuditoria";
+import Processos from "./pages/Processos";
 
 function App() {
   return (
@@ -15,6 +16,11 @@ function App() {
         <Route path="/auditoria/nova" element={
           <PrivateRoute>
             <NovaAuditoria />
+          </PrivateRoute>
+        } />
+        <Route path="/processos" element={
+          <PrivateRoute>
+            <Processos />
           </PrivateRoute>
         } />
 

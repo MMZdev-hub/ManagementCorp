@@ -22,7 +22,7 @@ public class Auditoria {
     public void setId(Long id) { this.id = id; }
 
     public String getNome() { return nome; }
-    public void setNome(String nome) { this.nome =nome; }
+    public void setNome(String nome) { this.nome = nome; }
 
     public String getDataInicio() { return dataInicio;}
     public void setDataInicio(String dataInicio) { this.dataInicio = dataInicio; }
