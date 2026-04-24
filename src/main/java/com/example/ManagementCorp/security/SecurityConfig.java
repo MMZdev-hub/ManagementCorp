@@ -53,6 +53,7 @@ public class SecurityConfig {
                 .requestMatchers("/h2-console/**").permitAll()
                 .requestMatchers("/auditorias/**").permitAll()
                 .requestMatchers("/users/**").permitAll()
+                .requestMatchers("/planos/**").permitAll()
                 .anyRequest().permitAll()
             )
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);

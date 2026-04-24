@@ -264,3 +264,23 @@
     font-size: 13px;
     font-weight: bold;
 }
+
+.novo-plano-form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 16px;
+    background: #3d5a60;
+    padding: 16px;
+    border-radius: 12px;
+}
+
+.novo-plano-form input,
+.novo-plano-form select {
+    padding: 10px 14px;
+    border-radius: 20px;
+    border: none;
+    outline: none;
+    background: #d9d9d9;
+    font-size: 14px;
+}

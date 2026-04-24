@@ -52,4 +52,9 @@ public class AuthController {
 
         return ResponseEntity.ok("Usuário cadastrado com sucesso");
     }
+
+    @GetMapping("/test-planos")
+    public String testPlanos() {
+        return "Planos controller funcionando!";
+    }
 }
