@@ -23,7 +23,7 @@ public class AuditoriaController {
     }
 
     @PostMapping
-    public ResponseEntity<?> criar (@RequestBody AuditoriaDTO data) {
+    public ResponseEntity<?> criar(@RequestBody AuditoriaDTO data) {
         Auditoria auditoria = new Auditoria();
         auditoria.setNome(data.nome);
         auditoria.setDataInicio(data.dataInicio);
@@ -31,11 +31,9 @@ public class AuditoriaController {
         auditoria.setPrazo(data.prazo);
         auditoria.setSetor(data.setor);
         auditoria.setObjetivo(data.objetivo);
-        auditoria.setStatus(data.status !=null ? data.status : "Pendente");
-
+        auditoria.setStatus(data.status != null ? data.status : "Pendente");
         auditoriaRepository.save(auditoria);
         return ResponseEntity.ok("Auditoria criada com sucesso");
-
     }
 
     @DeleteMapping("/{id}")
@@ -45,25 +43,23 @@ public class AuditoriaController {
     }
 
     @GetMapping("/historico")
-    public List<Auditoria> historico(
-            @RequestParam(required = false) String ordem){
-            
-            List<Auditoria> auditorias = auditoriaRepository.findAll();
+    public List<Auditoria> historico(@RequestParam(required = false) String ordem) {
+        List<Auditoria> auditorias = auditoriaRepository.findAll();
 
-            if("data".equals(ordem)) {
-                auditoria.sort((a,b) -> {
-                    if (a.getDataInicio() == null) return 1;
-                    if (b.getDataInicio() == null) return -1;
-                    return a.getDataInicio().compareTo(b.getDataInicio()):
-                });
-            } else if ("crescente".equals(ordem)) {
-                auditoria.sort((a, b) -> {
-                    if (a.getNome() == null) return 1;
-                    if (b.getNome() == null) return -1;
-                    return a.getNome().compareTo(b.getNome());
-                });
-            }
-
-            return auditorias;
+        if ("data".equals(ordem)) {
+            auditorias.sort((a, b) -> {
+                if (a.getDataInicio() == null) return 1;
+                if (b.getDataInicio() == null) return -1;
+                return a.getDataInicio().compareTo(b.getDataInicio());
+            });
+        } else if ("crescente".equals(ordem)) {
+            auditorias.sort((a, b) -> {
+                if (a.getNome() == null) return 1;
+                if (b.getNome() == null) return -1;
+                return a.getNome().compareTo(b.getNome());
+            });
         }
+
+        return auditorias;
+    }
 }

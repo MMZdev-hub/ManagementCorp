@@ -1,0 +1,271 @@
+.tarefas-page {
+    min-height: 100vh;
+    background: #5a7a82;
+    display: flex;
+    flex-direction: column;
+}
+
+.tarefas-content {
+    padding: 24px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* TOOLBAR */
+.tarefas-toolbar {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.btn-filtro-tarefa {
+    background: #4f6d73;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 8px 20px;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.btn-adicionar-tarefa {
+    background: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 8px 20px;
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-left: auto;
+}
+
+/* FORM */
+.tarefa-form {
+    background: #4f6d73;
+    border-radius: 16px;
+    padding: 16px;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.tarefa-form input,
+.tarefa-form select {
+    padding: 8px 14px;
+    border-radius: 20px;
+    border: none;
+    outline: none;
+    background: #d9d9d9;
+    font-size: 13px;
+    flex: 1;
+    min-width: 120px;
+}
+
+/* GRID */
+.tarefas-grid {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 20px;
+}
+
+/* KANBAN */
+.kanban {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+}
+
+.kanban-col {
+    background: #4f6d73;
+    border-radius: 16px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.kanban-titulo {
+    color: white;
+    font-size: 15px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.kanban-vazio {
+    color: #cbd5d8;
+    font-size: 13px;
+    text-align: center;
+}
+
+/* TAREFA CARD */
+.tarefa-card {
+    background: #3d5a60;
+    border-radius: 12px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.tarefa-titulo {
+    color: white;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.tarefa-responsavel {
+    color: #cbd5d8;
+    font-size: 12px;
+}
+
+.tarefa-data {
+    color: #cbd5d8;
+    font-size: 11px;
+}
+
+.tarefa-acoes {
+    display: flex;
+    gap: 6px;
+    justify-content: flex-end;
+}
+
+.btn-acao {
+    border: none;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    font-size: 12px;
+    color: white;
+}
+
+.btn-acao.verde { background: #4caf50; }
+.btn-acao.vermelho { background: #e53935; }
+
+/* SIDE */
+.tarefas-side {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* PROGRESSO */
+.progresso-card {
+    background: #4f6d73;
+    border-radius: 16px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.progresso-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.progresso-label {
+    color: white;
+    font-size: 12px;
+    min-width: 70px;
+}
+
+.progresso-barra {
+    flex: 1;
+    height: 10px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.progresso-fill {
+    height: 100%;
+    border-radius: 5px;
+    transition: width 0.3s;
+}
+
+.progresso-fill.azul { background: #4caf50; }
+.progresso-fill.roxo { background: #9c27b0; }
+
+.progresso-pct {
+    color: white;
+    font-size: 12px;
+    min-width: 35px;
+    text-align: right;
+}
+
+.btn-exportar {
+    background: #6aadca;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 8px 16px;
+    font-size: 13px;
+    cursor: pointer;
+    align-self: flex-start;
+}
+
+/* CHATBOT */
+.chatbot-card {
+    background: #4f6d73;
+    border-radius: 16px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex: 1;
+}
+
+.chatbot-titulo {
+    color: white;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.chatbot-msgs {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-height: 100px;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.chatbot-msg {
+    padding: 8px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    color: white;
+}
+
+.chatbot-msg.user { background: #3d5a60; align-self: flex-end; }
+.chatbot-msg.bot  { background: #2c3e42; align-self: flex-start; }
+
+.chatbot-input {
+    display: flex;
+    gap: 8px;
+}
+
+.chatbot-input input {
+    flex: 1;
+    padding: 8px 14px;
+    border-radius: 20px;
+    border: none;
+    outline: none;
+    background: #d9d9d9;
+    font-size: 13px;
+}
+
+.chatbot-input button {
+    background: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 34px;
+    height: 34px;
+    cursor: pointer;
+    font-size: 14px;
+}
