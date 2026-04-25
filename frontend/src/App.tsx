@@ -7,6 +7,7 @@ import NovaAuditoria from "./pages/NovaAuditoria";
 import Processos from "./pages/Processos";
 import Permissoes from "./pages/Permissoes";
 import AuditoriaInternaPage from "./pages/AuditoriaInterna";
+import Historico from "./pages/Historico";
 
 function App() {
   return (
@@ -33,6 +34,11 @@ function App() {
         <Route path="/auditoria-interna" element={
           <PrivateRoute>
             <AuditoriaInternaPage />
+          </PrivateRoute>
+        } />
+        <Route path="/historico" element={
+          <PrivateRoute>
+            <Historico />
           </PrivateRoute>
         } />
 
