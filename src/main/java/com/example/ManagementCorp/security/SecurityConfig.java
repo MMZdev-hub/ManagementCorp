@@ -54,6 +54,7 @@ public class SecurityConfig {
                 .requestMatchers("/auditorias/**").permitAll()
                 .requestMatchers("/users/**").permitAll()
                 .requestMatchers("/planos/**").permitAll()
+                .requestMatchers("/auditorias-internas/**").permitAll()
                 .anyRequest().permitAll()
             )
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);

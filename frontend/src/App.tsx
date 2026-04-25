@@ -6,6 +6,7 @@ import PrivateRoute from "./routes/PrivateRoute";
 import NovaAuditoria from "./pages/NovaAuditoria";
 import Processos from "./pages/Processos";
 import Permissoes from "./pages/Permissoes";
+import AuditoriaInternaPage from "./pages/AuditoriaInterna";
 
 function App() {
   return (
@@ -27,6 +28,11 @@ function App() {
         <Route path="/permissoes" element={
           <PrivateRoute>
             <Permissoes />
+          </PrivateRoute>
+        } />
+        <Route path="/auditoria-interna" element={
+          <PrivateRoute>
+            <AuditoriaInternaPage />
           </PrivateRoute>
         } />
 

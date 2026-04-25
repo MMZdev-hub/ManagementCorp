@@ -26,7 +26,9 @@ public class JwtFilter extends OncePerRequestFilter {
                path.startsWith("/h2-console") ||
                path.startsWith("/users") ||
                path.startsWith("/auditorias") ||
-               path.startsWith("/planos");
+               path.startsWith("/planos") ||
+               path.startsWith("/relatorios") ||
+               path.startsWith("/auditorias-internas");
     }
 
     @Override
