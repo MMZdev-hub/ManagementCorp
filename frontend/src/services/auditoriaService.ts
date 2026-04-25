@@ -19,3 +19,9 @@ export async function ListaAuditorias(): Promise<Auditoria[]> {
 export async function criarAuditoria(data: Auditoria): Promise<void> {
     await api.post("/auditorias", data);
 }
+
+export async function listarHistorico(ordem?: string): Promise<Auditoria[]> {
+    const params = ordem ? `?ordem=${ordem}` : "";
+    const response = await api.get(`/auditorias/historico${params}`);
+    return response.data;
+}

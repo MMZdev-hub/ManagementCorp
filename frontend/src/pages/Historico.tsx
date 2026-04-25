@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ListaAuditorias, type Auditoria } from "../services/auditoriaService";
+import { listarHistorico, type Auditoria } from "../services/auditoriaService";
 import "../styles/historico.css";
 
 export default function Historico() {
@@ -10,8 +10,9 @@ export default function Historico() {
     const [filtro, setFiltro] = useState("Todos");
 
     useEffect(() => {
-        ListaAuditorias().then(setAuditorias).catch(console.error);
-    }, []);
+       const ordem = filtro === "Por Data" ? "data" : filtro === "Ordem Crescente" ? "crescente" : undefined;
+       listarHistorico(ordem).then(setAuditorias).catch(console.error);
+    }, [filtro]);
 
     const auditoriasFiltradas = auditoria
         .filter(a => {

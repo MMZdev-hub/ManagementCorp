@@ -43,4 +43,27 @@ public class AuditoriaController {
         auditoriaRepository.deleteById(id);
         return ResponseEntity.ok("Auditoria deletada");
     }
+
+    @GetMapping("/historico")
+    public List<Auditoria> historico(
+            @RequestParam(required = false) String ordem){
+            
+            List<Auditoria> auditorias = auditoriaRepository.findAll();
+
+            if("data".equals(ordem)) {
+                auditoria.sort((a,b) -> {
+                    if (a.getDataInicio() == null) return 1;
+                    if (b.getDataInicio() == null) return -1;
+                    return a.getDataInicio().compareTo(b.getDataInicio()):
+                });
+            } else if ("crescente".equals(ordem)) {
+                auditoria.sort((a, b) -> {
+                    if (a.getNome() == null) return 1;
+                    if (b.getNome() == null) return -1;
+                    return a.getNome().compareTo(b.getNome());
+                });
+            }
+
+            return auditorias;
+        }
 }
