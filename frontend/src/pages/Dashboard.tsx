@@ -1,77 +1,41 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ListaAuditorias, type Auditoria } from "../services/auditoriaService";
+import Header from "../components/Header";
+import { listarAuditorias, buscarStatsPorArea, type Auditoria, type StatsArea } from "../services/auditoriaService";
 import "../styles/dashboard.css";
 import {
     PieChart, Pie, Cell, Tooltip,
     BarChart, Bar, XAxis, YAxis, CartesianGrid, 
 } from "recharts";
 
-const pieData = [
-    { name: "Concluídas", value: 60 },
-    { name: "Pendentes", value: 30 },
-    { name: "Em Andamento", value: 20 },
-];
-
 const PIE_COLORS = ["#4caf50", "#e53935", "#f0c030"];
-
-const barData = [
-    { area: "Produção",   concluidas: 5, andamento: 1, pendentes: 1 },
-    { area: "Logísticas", concluidas: 2, andamento: 1, pendentes: 1 },
-    { area: "Tecnologia", concluidas: 1, andamento: 1, pendentes: 3 },
-    { area: "RH",         concluidas: 4, andamento: 1, pendentes: 2 },
-];
 
 export default function Dashboard() {
     const navigate = useNavigate();
-    const email = localStorage.getItem("token") ? "Caíque Lima" : "Usuário";
     const [auditorias, setAuditorias] = useState<Auditoria[]>([]);
-
+    const [barData, setBarData] = useState<StatsArea[]>([]);
+    
     useEffect(() => {
-        ListaAuditorias()
-            .then(data => {
-                console.log("Auditorias Recevidas:", data);
-                setAuditorias(data);
-            })
-            .catch(err => console.error("Erro ao buscar auditorias:", err));
+        listarAuditorias().then(setAuditorias).catch(console.error);
+        buscarStatsPorArea().then(setBarData).catch(console.error);
     }, []);
 
     const concluidas = auditorias.filter(a => a.status === "Concluída").length;
     const emAndamento= auditorias.filter(a => a.status === "Em Andamento").length;
     const pendentes = auditorias.filter(a => a.status === "Pendente").length;
 
-    function handleLogout() {
-        localStorage.removeItem("token");
-        navigate("/login");
-    }
+    const total = auditorias.length || 1;
+    const pieData = [
+        { name: "Concluídas", value: Math.round((concluidas / total) * 100) },
+        { name: "Pendentes", value: Math.round((pendentes / total) * 100)},
+        { name: "Em Andamento", value: Math.round((emAndamento / total) * 100)},
+    ];
 
     return (
         <div className="dashboard-page">
 
             {/* Header */}
-            <header className="dashboard-header">
-                <div className="header-user">
-                    <div className="header-avatar">👤</div>
-                    <span className="header-username">{email}</span>
-                </div>
-
-                <nav className="header-nav">
-                    <a href="#">Início</a>
-                    <a onClick={() => navigate("/processos")} style={{cursor: "pointer"}}>Processos</a>
-                    <a href="#">Planos de Ação</a>
-                    <a href="#">Auditoria Interna</a>
-                </nav>
-
-                <div className="header-right">
-                    <span className="header-bell">🔔</span>
-                    <div className="header-logo">
-                        Management<span>Corp</span>
-                    </div>
-                    <button className="logout-btn" onClick={handleLogout}>
-                        Sair
-                    </button>
-                </div>
-            </header>
+            <Header paginaAtiva="inicio" />
 
             {/* Conteúdo */}
             <main className="dashboard-content">

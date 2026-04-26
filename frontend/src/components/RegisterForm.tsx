@@ -10,6 +10,7 @@ export default function RegisterForm() {
     const [confirm, setConfirm] = useState("");
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
+    const [nome, setNome] = useState("");
 
     const navigate = useNavigate();
 
@@ -33,7 +34,8 @@ export default function RegisterForm() {
         try {
             await api.post("/auth/register", {
                 email,
-                password
+                password,
+                nome
             });
             setSuccess("Usuário cadastrado com sucesso");
             setTimeout(() => {navigate("/login");}, 2000);
@@ -49,6 +51,14 @@ export default function RegisterForm() {
 
         return (
             <form className="login-form" onSubmit={handleSubmit}>
+
+                <label>Nome completo</label>
+                <input
+                    type="text"
+                    name="nome"
+                    placeholder="Digite seu nome completo"
+                    onChange={e => setNome(e.target.value)}
+                />
 
                 <label>E-mail</label>
                 <input 

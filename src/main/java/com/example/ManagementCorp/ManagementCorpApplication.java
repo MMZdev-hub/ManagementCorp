@@ -8,6 +8,5 @@ public class ManagementCorpApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(ManagementCorpApplication.class, args);
-        System.out.println(">>> Aplicação iniciada! Endpoints disponíveis.");
     }
 }

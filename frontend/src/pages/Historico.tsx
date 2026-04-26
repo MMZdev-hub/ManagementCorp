@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import Header from "../components/Header";
 import { listarHistorico, type Auditoria } from "../services/auditoriaService";
 import "../styles/historico.css";
 
 export default function Historico() {
-    const navigate = useNavigate();
     const [auditoria, setAuditorias] = useState<Auditoria[]>([]);
     const [busca, setBusca] = useState("");
     const [filtro, setFiltro] = useState("Todos");
@@ -41,22 +40,7 @@ export default function Historico() {
         <div className="historico-page">
 
              {/* Header */}
-             <header className="dashboard-header">
-                <div className="header-user">
-                    <div className="header-avatar">👤</div>
-                    <span className="header-username">Filipe Santos</span>
-                </div>
-                <nav className="header-nav">
-                    <a onClick={() => navigate("/dashboard")} style={{ cursor: "pointer" }}>Início</a>
-                    <a onClick={() => navigate("/processos")} style={{ cursor: "pointer" }}>Processos</a>
-                    <a href="#">Planos de Ação</a>
-                    <a href="#">Auditoria Interna</a>
-                </nav>
-                <div className="header-right">
-                    <span className="header-bell">🔔</span>
-                    <div className="header-logo">Management<span>Corp</span></div>
-                </div>
-            </header>
+            <Header  />
 
             <main className="historico-content">
                 <div className="historico-card">

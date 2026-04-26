@@ -1,20 +1,26 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import Header from "../components/Header";
 import { listarPlanos, criarPlano, type PlanoAcao } from "../services/planoService";
+import { listarAuditorias, atualizarStatusAuditoria, deletarAuditoria, type Auditoria } from "../services/auditoriaService";
+import { listarAuditoriasInternas, type AuditoriaInterna } from "../services/auditoriaInternaService";
 import "../styles/processos.css";
 
 export default function Processos() {
-    const navigate = useNavigate();
     const [filtro, setFiltro] = useState("Todos");
     const [buscar, setBuscar] = useState("");
     const [planos, setPlanos] = useState<PlanoAcao[]>([]);
+    const [auditorias, setAuditorias] = useState<Auditoria[]>([]);
+    const [auditoriasInternas, setAuditoriasInternas] = useState<AuditoriaInterna[]>([]);
     const [showForm, setShowForm] = useState(false);
+    const [abaAtiva, setAbaAtiva] = useState<"externas" | "internas">("externas");
     const [novoPlano, setNovoPlano] = useState({
         nome: "", responsavel: "", dataCriacao: "", prazo: "", status: "Pendentes"
     });
 
     useEffect(() => {
         listarPlanos().then(setPlanos).catch(console.error);
+        listarAuditorias().then(setAuditorias).catch(console.error);
+        listarAuditoriasInternas().then(setAuditoriasInternas).catch(console.error);
     }, []);
 
     const planosFiltrados = planos.filter(p => {
@@ -25,9 +31,9 @@ export default function Processos() {
     });
 
     function getStatusClass(status: string) {
-        if (status === "Pendentes") return "tag-pendente";
+        if (status === "Pendentes" || status === "Pendente") return "tag-pendente";
         if (status === "Em Andamento") return "tag-andamento";
-        if (status === "Concluído") return "tag-concluido";
+        if (status === "Concluída" || status === "Concluído") return "tag-concluido";
         return "";
     }
 
@@ -43,62 +49,111 @@ export default function Processos() {
         }
     }
 
+    async function handleStatusAuditoria(id: number, status: string) {
+        try {
+            await atualizarStatusAuditoria(id, status);
+            const atualizadas = await listarAuditorias();
+            setAuditorias(atualizadas);
+        } catch (err) {
+            console.error("Erro ao atualizar status:", err);
+        }
+    }
+
+    async function handleDeletarAuditoria(id: number) {
+        if (!confirm("Deseja excluir esta auditoria?")) return;
+        try {
+            await deletarAuditoria(id);
+            const atualizadas = await listarAuditorias();
+            setAuditorias(atualizadas);
+        } catch (err) {
+            console.error("Erro ao deletar auditoria:", err);
+        }
+    }
+
     return (
         <div className="processos-page">
-
-            {/* Header */}
-            <header className="dashboard-header">
-                <div className="header-user">
-                    <div className="header-avatar">👤</div>
-                    <span className="header-username">Filipe Santos</span>
-                </div>
-                <nav className="header-nav">
-                    <a onClick={() => navigate("/dashboard")} style={{ cursor: "pointer" }}>Início</a>
-                    <a href="#">Processos</a>
-                    <a href="#">Planos de Ação</a>
-                    <a href="#">Auditoria Interna</a>
-                </nav>
-                <div className="header-right">
-                    <span className="header-bell">🔔</span>
-                    <div className="header-logo">Management<span>Corp</span></div>
-                </div>
-            </header>
+            <Header paginaAtiva="processos" />
 
             <main className="processos-content">
                 <div className="processos-grid">
 
-                    {/* ESQUERDA — Modelagem */}
+                    {/* ESQUERDA — Auditorias */}
                     <div className="modelagem-card">
-                        <h2 className="processos-title">Modelagem de Processos</h2>
-                        <button className="btn-novo-processo">Novo Processo</button>
+                        <h2 className="processos-title">Auditorias</h2>
 
-                        <div className="fluxo-area">
-                            <div className="fluxo-diagram">
-                                <div className="fluxo-node inicio">Início</div>
-                                <div className="fluxo-arrow">↓</div>
-                                <div className="fluxo-node tarefa">Tarefa A</div>
-                                <div className="fluxo-arrow">↓</div>
-                                <div className="fluxo-node decisao">Decisão</div>
-                                <div className="fluxo-arrow">↓ Sim</div>
-                                <div className="fluxo-node tarefa">Tarefa B</div>
-                                <div className="fluxo-arrow">↓</div>
-                                <div className="fluxo-node saida">Saída</div>
-                            </div>
-
-                            <div className="sugestoes-area">
-                                <h4>Sugestões de Otimização</h4>
-                                <div className="alerta-gargalo">
-                                    <span className="alerta-icon">⚠️</span>
-                                    <span className="alerta-texto">Possível Gargalo</span>
-                                    <p>Identificado entre Tarefa A e Decisão</p>
-                                </div>
-                            </div>
+                        {/* Abas */}
+                        <div className="abas">
+                            <button
+                                className={`aba-btn ${abaAtiva === "externas" ? "aba-ativa" : ""}`}
+                                onClick={() => setAbaAtiva("externas")}>
+                                Externas
+                            </button>
+                            <button
+                                className={`aba-btn ${abaAtiva === "internas" ? "aba-ativa" : ""}`}
+                                onClick={() => setAbaAtiva("internas")}>
+                                Internas
+                            </button>
                         </div>
 
-                        <div className="modelagem-actions">
-                            <button className="btn-anexar-processo">Anexar Processo</button>
-                            <button className="btn-salvar-processo">Salvar</button>
-                        </div>
+                        {/* Lista de Auditorias Externas */}
+                        {abaAtiva === "externas" && (
+                            <div className="auditoria-lista">
+                                {auditorias.length === 0 ? (
+                                    <p style={{ color: "#cbd5d8" }}>Nenhuma auditoria externa cadastrada.</p>
+                                ) : (
+                                    auditorias.map(a => (
+                                        <div key={a.id} className="auditoria-card-item">
+                                            <div className="auditoria-card-info">
+                                                <span className="auditoria-card-nome">{a.nome}</span>
+                                                <span className="auditoria-card-resp">{a.responsavel}</span>
+                                                <span className={`plano-tag ${getStatusClass(a.status || "")}`}>
+                                                    {a.status}
+                                                </span>
+                                            </div>
+                                            <div className="auditoria-card-acoes">
+                                                <select
+                                                    value={a.status || ""}
+                                                    onChange={e => handleStatusAuditoria(a.id!, e.target.value)}
+                                                    className="select-status"
+                                                >
+                                                    <option>Pendente</option>
+                                                    <option>Em Andamento</option>
+                                                    <option>Concluída</option>
+                                                </select>
+                                                <button
+                                                    className="btn-deletar"
+                                                    onClick={() => handleDeletarAuditoria(a.id!)}
+                                                >
+                                                    🗑️
+                                                </button>
+                                            </div>
+                                        </div>
+                                    ))
+                                )}
+                            </div>
+                        )}
+
+                        {/* Lista de Auditorias Internas */}
+                        {abaAtiva === "internas" && (
+                            <div className="auditoria-lista">
+                                {auditoriasInternas.length === 0 ? (
+                                    <p style={{ color: "#cbd5d8" }}>Nenhuma auditoria interna cadastrada.</p>
+                                ) : (
+                                    auditoriasInternas.map(a => (
+                                        <div key={a.id} className="auditoria-card-item">
+                                            <div className="auditoria-card-info">
+                                                <span className="auditoria-card-nome">{a.nome}</span>
+                                                <span className="auditoria-card-resp">{a.responsavel}</span>
+                                                <span className="auditoria-card-dept">{a.departamento}</span>
+                                            </div>
+                                            <div className="auditoria-card-acoes">
+                                                <span className="auditoria-card-data">{a.data}</span>
+                                            </div>
+                                        </div>
+                                    ))
+                                )}
+                            </div>
+                        )}
                     </div>
 
                     {/* DIREITA — Planos de Ação */}
@@ -108,7 +163,6 @@ export default function Processos() {
                             <button className="btn-salvar-processo" onClick={() => setShowForm(!showForm)}>+</button>
                         </div>
 
-                        {/* Formulário novo plano */}
                         {showForm && (
                             <div className="novo-plano-form">
                                 <input placeholder="Nome do plano" value={novoPlano.nome}

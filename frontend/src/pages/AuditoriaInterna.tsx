@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import Header from "../components/Header";
 import { listarAuditoriasInternas, criarAuditoriaInterna, type AuditoriaInterna } from "../services/auditoriaInternaService";
 import { listarRelatorios, buscarStats, type DadosGargalo, type Stats } from "../services/relatorioService";
 import "../styles/auditoria-interna.css";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 
 export default function AuditoriaInternaPage() {
-    const navigate = useNavigate();
     const [auditorias, setAuditorias] = useState<AuditoriaInterna[]>([]);
     const [form, setForm] = useState({ nome: "", departamento: "", responsavel: "", data: "" });
     const [sucesso, setSucesso] = useState("");
@@ -40,22 +39,7 @@ export default function AuditoriaInternaPage() {
         <div className="auditoria-interna-page">
 
             {/* Header */}
-            <header className="dashboard-header">
-                <div className="header-user">
-                    <div className="header-avatar">👤</div>
-                    <span className="header-username">Filipe Santos</span>
-                </div>
-                <nav className="header-nav">
-                    <a onClick={() => navigate("/dashboard")} style={{ cursor: "pointer" }}>Início</a>
-                    <a onClick={() => navigate("/processos")} style={{ cursor: "pointer" }}>Processos</a>
-                    <a href="#">Planos de Ação</a>
-                    <a href="#">Auditoria Interna</a>
-                </nav>
-                <div className="header-right">
-                    <span className="header-bell">🔔</span>
-                    <div className="header-logo">Management<span>Corp</span></div>
-                </div>
-            </header>
+            <Header paginaAtiva="auditoria" />
 
             <main className="auditoria-interna-content">
 

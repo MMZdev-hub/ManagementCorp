@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import Header from "../components/Header";
 import { listarTarefas, criarTarefa, atualizarStatusTarefa, deletarTarefa, type Tarefa } from "../services/tarefaService";
 import "../styles/tarefas.css";
 
 export default function Tarefas() {
-    const navigate = useNavigate();
     const [tarefas, setTarefas] = useState<Tarefa[]>([]);
     const [showForm, setShowForm] = useState(false);
     const [chatMsg, setChatMsg] = useState("");
@@ -89,22 +88,7 @@ export default function Tarefas() {
         <div className="tarefas-page">
 
             {/* Header */}
-            <header className="dashboard-header">
-                <div className="header-user">
-                    <div className="header-avatar">👤</div>
-                    <span className="header-username">Filipe Santos</span>
-                </div>
-                <nav className="header-nav">
-                    <a onClick={() => navigate("/dashboard")} style={{ cursor: "pointer" }}>Início</a>
-                    <a onClick={() => navigate("/processos")} style={{ cursor: "pointer" }}>Processos</a>
-                    <a href="#">Planos de Ação</a>
-                    <a href="#">Auditoria Interna</a>
-                </nav>
-                <div className="header-right">
-                    <span className="header-bell">🔔</span>
-                    <div className="header-logo">Management<span>Corp</span></div>
-                </div>
-            </header>
+            <Header paginaAtiva="tarefas" />
 
             <main className="tarefas-content">
 

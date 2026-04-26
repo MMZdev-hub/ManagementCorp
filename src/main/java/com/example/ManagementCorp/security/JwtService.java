@@ -12,24 +12,34 @@ import java.util.Date;
 public class JwtService {
 
     private final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-    private final long expiration = 1000 * 60 * 60 * 8; // 8 horas
+    private final long expiration = 1000 * 60 * 60 * 8;
 
-    public String generateToken(String email) {
+    public String generateToken(String email, String nome) {
         return Jwts.builder()
-        .setSubject(email)
-        .setIssuedAt(new Date())
-        .setExpiration(new Date(System.currentTimeMillis() + expiration))
-        .signWith(key)
-        .compact();
+            .setSubject(email)
+            .claim("nome", nome)
+            .setIssuedAt(new Date())
+            .setExpiration(new Date(System.currentTimeMillis() + expiration))
+            .signWith(key)
+            .compact();
     }
 
     public String extractEmail(String token) {
         return Jwts.parserBuilder()
-        .setSigningKey(key)
-        .build()
-        .parseClaimsJws(token)
-        .getBody()
-        .getSubject();
+            .setSigningKey(key)
+            .build()
+            .parseClaimsJws(token)
+            .getBody()
+            .getSubject();
+    }
+
+    public String extractNome(String token) {
+        return (String) Jwts.parserBuilder()
+            .setSigningKey(key)
+            .build()
+            .parseClaimsJws(token)
+            .getBody()
+            .get("nome");
     }
 
     public boolean validateToken(String token) {

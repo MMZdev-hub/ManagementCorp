@@ -29,7 +29,7 @@ public class AuthController {
         var user = userRepository.findByEmail(data.email);
 
         if(user.isPresent() && encoder.matches(data.password, user.get().getPassword())) {
-            String token = jwtService.generateToken(data.email);
+            String token = jwtService.generateToken(data.email, user.get().getName());
             return ResponseEntity.ok(token);
         }
 
@@ -47,14 +47,9 @@ public class AuthController {
         User user = new User();
         user.setEmail(data.email);
         user.setPassword(encoder.encode(data.password) );
+        user.setName(data.nome);
 
         userRepository.save(user);
-
         return ResponseEntity.ok("Usuário cadastrado com sucesso");
-    }
-
-    @GetMapping("/test-planos")
-    public String testPlanos() {
-        return "Planos controller funcionando!";
     }
 }

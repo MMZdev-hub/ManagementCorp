@@ -284,3 +284,100 @@
     background: #d9d9d9;
     font-size: 14px;
 }
+
+/* ABAS */
+.abas {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.aba-btn {
+    background: #6f8f95;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 6px 20px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.aba-btn.aba-ativa {
+    background: #4caf50;
+}
+
+/* AUDITORIA CARD */
+.auditoria-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    overflow-y: auto;
+    max-height: 400px;
+}
+
+.auditoria-card-item {
+    background: #3d5a60;
+    border-radius: 12px;
+    padding: 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+}
+
+.auditoria-card-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+}
+
+.auditoria-card-nome {
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.auditoria-card-resp {
+    color: #cbd5d8;
+    font-size: 12px;
+}
+
+.auditoria-card-dept {
+    color: #cbd5d8;
+    font-size: 12px;
+}
+
+.auditoria-card-data {
+    color: white;
+    font-size: 12px;
+}
+
+.auditoria-card-acoes {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.select-status {
+    padding: 6px 10px;
+    border-radius: 20px;
+    border: none;
+    background: #6f8f95;
+    color: white;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.btn-deletar {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    transition: 0.2s;
+}
+
+.btn-deletar:hover {
+    transform: scale(1.2);
+}

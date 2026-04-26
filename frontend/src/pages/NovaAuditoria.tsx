@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import Header from "../components/Header";
 import "../styles/nova-auditoria.css";
 import { criarAuditoria } from "../services/auditoriaService";
 
 export default function NovaAuditoria() {
-    const navigate = useNavigate();
 
     const [form, setForm] = useState({
         nome:"",
@@ -28,10 +27,9 @@ export default function NovaAuditoria() {
                 prazo: form.prazo,
                 setor: form.setor,
                 objetivo: form.objetivo,
-                status: "Pendentes"
+                status: "Pendente"
             });
             alert("Auditori Salva com sucesso!");
-            navigate("/dashboard");
         } catch (error) {
             alert("Erro ao salvar auditoria!");
             console.error(error);
@@ -42,23 +40,7 @@ export default function NovaAuditoria() {
         <div className="nova-auditoria-page">
 
             {/*Hearder*/}
-            <header className="dashboard-header">
-                <div className="header-user">
-                    <div className="header-avatar">👤</div>
-                    <span className="header-username">Filipe Santos</span>
-                </div>
-
-                <nav className="header-nav">
-                    <a href="#">Inicio</a>
-                    <a href="#">Processos</a>
-                    <a href="#">Planos de Ação</a>
-                    <a href="#">Auditoria Interna</a>
-                </nav>
-                <div className="header-right">
-                    <span className="header-bell">🔔</span>
-                    <div className="header-logo">Management<span>Corp</span></div>
-                </div>
-            </header>
+            <Header />
 
             {/*Contepudo*/}
             <main className="nova-auditoria-content">
