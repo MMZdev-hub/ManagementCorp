@@ -45,3 +45,8 @@ export async function atualizarStatusAuditoria(id: number, status: string): Prom
 export async function deletarAuditoria(id: number): Promise<void> {
     await api.delete(`/auditorias/${id}`);
 }
+
+export async function listarAuditoriasPorResponsavel(nome: string): Promise<Auditoria[]> {
+    const response = await api.get(`/auditorias/responsavel/${encodeURIComponent(nome)}`);
+    return response.data;
+}

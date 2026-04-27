@@ -14,6 +14,7 @@ public class AuditoriaInterna {
     private String departamento;
     private String responsavel;
     private String data;
+    private String status;
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
@@ -29,4 +30,7 @@ public class AuditoriaInterna {
 
     public String getData() { return data; }
     public void setData(String data) { this.data = data; }
+
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
 }

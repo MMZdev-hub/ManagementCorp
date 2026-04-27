@@ -75,6 +75,16 @@
     font-weight:  bold;
 }
 
+.info-grid-single {
+    display: flex;
+    justify-content: center;
+}
+
+.info-grid-single .info-card {
+    width: 100%;
+    max-width: 600px;
+}
+
 /* Gargalos Stats */
 .gargalo-stats {
     display: flex;

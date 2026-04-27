@@ -5,4 +5,5 @@ public class AuditoriaInternaDTO {
     public String departamento;
     public String responsavel;
     public String data;
+    public String status;
 }

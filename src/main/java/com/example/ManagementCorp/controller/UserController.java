@@ -5,6 +5,7 @@ import com.example.managementcorp.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import com.example.managementcorp.dto.UserResponseDTO;
 
 import java.util.List;
 
@@ -17,8 +18,17 @@ public class UserController {
     private UserRepository userRepository;
 
     @GetMapping
-    public List<User> listar() {
-        return userRepository.findAll();
+    public List<UserResponseDTO> listar() {
+        return userRepository.findAll().stream()
+            .map(u -> new UserResponseDTO(
+                u.getId(),
+                u.getEmail(),
+                u.getName(),
+                u.getPerfil(),
+                u.getPermissoes(),
+                u.isAcesso()
+            ))
+            .collect(java.util.stream.Collectors.toList());
     }
 
     @PutMapping("/{id}/acesso")

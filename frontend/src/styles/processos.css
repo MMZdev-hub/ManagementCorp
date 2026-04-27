@@ -360,6 +360,15 @@
     gap: 8px;
 }
 
+.auditoria-full-card {
+    background: #4f6d73;
+    border-radius: 20px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
 .select-status {
     padding: 6px 10px;
     border-radius: 20px;

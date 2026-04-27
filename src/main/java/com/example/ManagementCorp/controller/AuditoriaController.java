@@ -93,10 +93,17 @@ public class AuditoriaController {
     @PutMapping("/{id}/status")
     public ResponseEntity<?> atualizarStatus(@PathVariable Long id, @RequestBody AuditoriaDTO data) {
         var auditoria = auditoriaRepository.findById(id);
-        if (audi.isEmpty()) return ResponseEntity.notFound().build();
+        if (auditoria.isEmpty()) return ResponseEntity.notFound().build();
         Auditoria a = auditoria.get();
         a.setStatus(data.status);
         auditoriaRepository.save(a);
         return ResponseEntity.ok(a);
+    }
+
+    @GetMapping("/responsavel/{nome}")
+    public List<Auditoria> porResponsavel(@PathVariable String nome) {
+        return auditoriaRepository.findAll().stream()
+            .filter(a -> nome.equalsIgnoreCase(a.getResponsavel()))
+            .collect(java.util.stream.Collectors.toList());
     }
 }

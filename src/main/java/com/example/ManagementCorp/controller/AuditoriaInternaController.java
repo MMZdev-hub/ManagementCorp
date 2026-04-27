@@ -29,6 +29,7 @@ public class AuditoriaInternaController {
         auditoria.setDepartamento(data.departamento);
         auditoria.setResponsavel(data.responsavel);
         auditoria.setData(data.data);
+        repo.save(auditoria);
         return ResponseEntity.ok("Auditoria interna criada com sucesso");
     }
 
@@ -37,4 +38,14 @@ public class AuditoriaInternaController {
         repo.deleteById(id);
         return ResponseEntity.ok("Auditoria interna deletada");
     }
+
+    @PutMapping("/{id}/status")
+public ResponseEntity<?> atualizarStatus(@PathVariable Long id, @RequestBody AuditoriaInternaDTO data) {
+    var auditoria = repo.findById(id);
+    if (auditoria.isEmpty()) return ResponseEntity.notFound().build();
+    AuditoriaInterna a = auditoria.get();
+    a.setStatus(data.status);
+    repo.save(a);
+    return ResponseEntity.ok(a);
+}
 }

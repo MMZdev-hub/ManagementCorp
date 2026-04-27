@@ -9,6 +9,7 @@ import Permissoes from "./pages/Permissoes";
 import AuditoriaInternaPage from "./pages/AuditoriaInterna";
 import Historico from "./pages/Historico";
 import Tarefas from "./pages/Tarefas";
+import MinhasAuditorias from "./pages/MinhasAuditorias";
 
 function App() {
   return (
@@ -45,6 +46,11 @@ function App() {
         <Route path="/tarefas" element={
           <PrivateRoute>
               <Tarefas />
+          </PrivateRoute>
+        } />
+        <Route path="/minhas-auditorias" element={
+          <PrivateRoute>
+              <MinhasAuditorias />
           </PrivateRoute>
         } />
 

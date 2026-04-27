@@ -1,22 +1,11 @@
 import { useEffect, useState } from "react";
-import Header from "../components/Header";
 import { listarUsuarios, toggleAcesso, type Usuario } from "../services/userService";
+import Header from "../components/Header";
 import "../styles/permissoes.css";
-
-interface Atividade {
-    id: number;
-    nome: string;
-    acao: string;
-    data: string;
-}
-
-const atividadesIniciais: Atividade[] = [
-    { id: 1, nome: "Ana Maria", acao: "Editou auditoria nº45632", data: "24 de Apr. 2024" },
-    { id: 2, nome: "Marcos Antônio", acao: "Excluiu Auditoria nº22541", data: "10 de Jan. 2024" },
-];
 
 export default function Permissoes() {
     const [usuarios, setUsuarios] = useState<Usuario[]>([]);
+    const [busca, setBusca] = useState("");
 
     useEffect(() => {
         listarUsuarios()
@@ -24,82 +13,79 @@ export default function Permissoes() {
             .catch(err => console.error("Erro ao buscar usuários:", err));
     }, []);
 
-   async function handleToggle(id: number) {
+    async function handleToggle(id: number) {
         try {
-            const autalizado = await toggleAcesso(id);
+            const atualizado = await toggleAcesso(id);
             setUsuarios(prev =>
-                prev.map(U => U.id === id ? { ...U, acesso: autalizado.acesso, permissoes: autalizado.permissoes } : U)
+                prev.map(u => u.id === id ? { ...u, acesso: atualizado.acesso, permissoes: atualizado.permissoes } : u)
             );
         } catch (err) {
             console.error("Erro ao atualizar acesso:", err);
         }
-        
     }
+
+    const usuariosFiltrados = usuarios.filter(u =>
+        u.email.toLowerCase().includes(busca.toLowerCase()) ||
+        String(u.id).includes(busca)
+    );
 
     return (
         <div className="permissoes-page">
 
-              {/* Header */}
-              <Header />
+            <Header />
 
-            {/* conteúdo */}
             <main className="permissoes-content">
 
                 {/* Tabela de Usuários */}
                 <div className="permissoes-card">
                     <h2 className="permissoes-title">Controle de Usuários</h2>
 
-                    {usuarios.length === 0 ? (
-                        <p style={{ color: "#cbd5d8" }}>Nenhum usuário cadastrado ainda.</p>
+                    {/* Busca */}
+                    <div className="permissoes-search">
+                        <span>🔍</span>
+                        <input
+                            type="text"
+                            placeholder="Buscar por ID ou e-mail..."
+                            value={busca}
+                            onChange={e => setBusca(e.target.value)}
+                        />
+                    </div>
+
+                    {usuariosFiltrados.length === 0 ? (
+                        <p style={{ color: "#cbd5d8" }}>Nenhum usuário encontrado.</p>
                     ) : (
-                    <table  className="usuarios-table">
-                        <thead>
-                            <tr>
-                                <th>Usuário</th>
-                                <th>Perfil</th>
-                                <th>Permissões</th>
-                                <th>Acesso</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {usuarios.map(u => (
-                                <tr key={u.id}>
-                                    <td>{u.email}</td>
-                                    <td>{u.perfil || "—"}</td>
-                                    <td>{u.permissoes || "ON"}</td>
-                                    <td>
-                                        <div 
-                                            className={`toggle ${u.acesso ? "on" : "off"}`}
-                                            onClick={() => handleToggle(u.id)}
-                                        >
-                                            <div className="toggle-ball" />
-                                        </div>
-                                    </td>
+                        <table className="usuarios-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Usuário</th>
+                                    <th>Perfil</th>
+                                    <th>Permissões</th>
+                                    <th>Acesso</th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                {usuariosFiltrados.map(u => (
+                                    <tr key={u.id}>
+                                        <td>#{u.id}</td>
+                                        <td>{u.email}</td>
+                                        <td>{u.perfil || "—"}</td>
+                                        <td>{u.permissoes || "ON"}</td>
+                                        <td>
+                                            <div
+                                                className={`toggle ${u.acesso ? "on" : "off"}`}
+                                                onClick={() => handleToggle(u.id)}
+                                            >
+                                                <div className="toggle-ball" />
+                                            </div>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
                     )}
                 </div>
 
-                {/* Registro de Atividades */}
-                <div className="permissoes-card">
-                    <h3 className="permissoes-subtitle">Registro de Atividade</h3>
-
-                    <div className="atividade-lista">
-                        {atividadesIniciais.map(a => (
-                            <div key={a.id} className="atividade-item">
-                                <div className="atividade-avatar">👤</div>
-                                <div className="atividade-info">
-                                    <span className="atividade-nome">{a.nome}</span>
-                                    <span className="atividade-data">{a.data}</span>
-                                </div>
-                                <div className="atividade-acao">{a.acao}</div>
-                                <div className="atividade-data-right">{a.data}</div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
             </main>
         </div>
     );

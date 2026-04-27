@@ -76,13 +76,13 @@ export default function AuditoriaInternaPage() {
                 </div>
 
                 {/* Cards informativos */}
-                <div className="info-grid">
+                <div className="info-grid-single">
 
                     {/* Gargalos */}
                     <div className="info-card dark">
                         <h3>Identificação de Gargalos e Ineficiência</h3>
                         <ResponsiveContainer width="100%" height={120}>
-                            <LineChart data={dadosGargalo}>
+                            <LineChart data={dadosGargalo.length > 0 ? dadosGargalo : [{ mes: "-", tempoExecucao: 0, taxaRetrabalho: 0 }]}>
                                 <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
                                 <XAxis dataKey="mes" tick={{ fill: "white", fontSize: 10 }} />
                                 <YAxis tick={{ fill: "white", fontSize: 10 }} />
@@ -97,7 +97,7 @@ export default function AuditoriaInternaPage() {
                                 <span className="stat-label">Tempo Médio de Execução</span>
                             </div>
                             <div className="stat">
-                                <span className="stat-valor laranja">{stats.taxaRetrabalho}</span>
+                                <span className="stat-valor laranja">{stats.taxaRetrabalho}%</span>
                                 <span className="stat-label">Taxa de Retrabalho</span>
                             </div>
                             <div className="stat">
@@ -106,47 +106,6 @@ export default function AuditoriaInternaPage() {
                             </div>
                         </div>
                     </div>
-
-                    {/* Fluxo */}
-                    <div className="info-card dark">
-                        <h3>Modelagem de fluxos de processos Empresariais</h3>
-                        <div className="fluxo-mini">
-                            <div className="fluxo-mini-node tarefa">Tarefa</div>
-                            <div className="fluxo-mini-arrow">→</div>
-                            <div className="fluxo-mini-node decisao">◆</div>
-                            <div className="fluxo-mini-arrow">→</div>
-                            <div className="fluxo-mini-node decisao laranja">◆</div>
-                            <div className="fluxo-mini-arrow">→</div>
-                            <div className="fluxo-mini-node decisao">Decisão</div>
-                        </div>
-                        <div className="fluxo-mini-bottom">
-                            <div className="fluxo-mini-node circulo">●</div>
-                            <div className="fluxo-mini-arrow">→</div>
-                            <div className="fluxo-mini-node termino laranja">Término</div>
-                        </div>
-                    </div>
-
-                    {/* Relatórios */}
-                    <div className="info-card dark">
-                        <h3>Geração de Relatórios e Dashboard Personalizado</h3>
-                        <div className="relatorio-graficos">
-                            <div className="bar-mini">
-                                {dadosGargalo.length > 0
-                                    ? dadosGargalo.map((d, i) => (
-                                        <div key={i} className="bar-mini-col"
-                                            style={{height: `${d.tempoExecução * 2}px` }} />
-                                    ))
-                                    : [4, 7, 5, 8, 6].map((h, i) => (
-                                        <div key={i} className="bar-mini-col"
-                                         style={{ height: `${h * 10}px` }} />
-                                    ))
-                                }
-                            </div>
-                            <div className="pizza-mini">🍩</div>
-                        </div>
-                        <button className="btn-anexar-relatorio">Anexar Evidências</button>
-                    </div>
-
                 </div>
 
                 {/* Lista de auditorias cadastradas */}

@@ -17,7 +17,7 @@ export default function Header({ paginaAtiva }: HeaderProps) {
 
     return (
         <header className="dashboard-header">
-            <div className="header-user" onClick={() => navigate("/permissoes")} style={{ cursor: "pointer" }}>
+            <div className="header-user" onClick={() => navigate("/minhas-auditorias")} style={{ cursor: "pointer" }}>
                 <div className="header-avatar">👤</div>
                 <span className="header-username">{email}</span>
             </div>
@@ -35,8 +35,10 @@ export default function Header({ paginaAtiva }: HeaderProps) {
                 <button onClick={() => navigate("/auditoria-interna")} className={`nav-btn ${paginaAtiva === "auditoria" ? "nav-ativo" : ""}`}>
                     Auditoria Interna
                 </button>
+                <button onClick={() => navigate("/permissoes")} className={`nav-btn ${paginaAtiva === "permissoes" ? "nav-ativo" : ""}`}>
+                    Permissões
+                </button>
             </nav>
-
             <div className="header-right">
                 <span
                     className="header-bell"

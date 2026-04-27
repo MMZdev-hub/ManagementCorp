@@ -23,13 +23,7 @@ public class JwtFilter extends OncePerRequestFilter {
     protected boolean shouldNotFilter(HttpServletRequest request) {
         String path = request.getRequestURI();
         return path.startsWith("/auth/") ||
-               path.startsWith("/h2-console") ||
-               path.startsWith("/users") ||
-               path.startsWith("/auditorias") ||
-               path.startsWith("/planos") ||
-               path.startsWith("/relatorios") ||
-               path.startsWith("/auditorias-internas") ||
-               path.startsWith("/tarefas");
+               path.startsWith("/h2-console");
     }
 
     @Override

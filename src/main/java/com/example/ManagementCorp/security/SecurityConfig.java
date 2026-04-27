@@ -51,12 +51,7 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/auth/**").permitAll()
                 .requestMatchers("/h2-console/**").permitAll()
-                .requestMatchers("/auditorias/**").permitAll()
-                .requestMatchers("/users/**").permitAll()
-                .requestMatchers("/planos/**").permitAll()
-                .requestMatchers("/auditorias-internas/**").permitAll()
-                .requestMatchers("/tarefas/**").permitAll()
-                .anyRequest().permitAll()
+                .anyRequest().authenticated()
             )
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
             
