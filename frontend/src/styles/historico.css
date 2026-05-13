@@ -1,0 +1,131 @@
+.historico-page {
+    min-height: 100vh;
+    background: #5a7a82;
+    display: flex;
+    flex-direction: column;
+}
+
+.historico-content {
+    padding: 32px;
+    display: flex;
+    justify-content: center;
+}
+
+.historico-card {
+    background: #4f6d73;
+    border-radius: 20px;
+    padding: 32px;
+    width: 100%;
+    max-width: 900px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.historico-search {
+    display: flex;
+    align-items: center;
+    background: #d9d9d9;
+    border-radius: 30px;
+    padding: 10px 16px;
+    gap: 8px;
+}
+
+.historico-search input {
+    border: none;
+    background: transparent;
+    outline: none;
+    font-size: 14px;
+    width: 100%;
+}
+
+.historico-filtros {
+    display: flex;
+    gap: 8px;
+}
+
+.btn-filtro-hist {
+    background: #6f8f95;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 6px 18px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.btn-filtro-hist.ativo {
+    background: #3d5a60;
+}
+
+.historico-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.historico-item {
+    background: #3d5a60;
+    border-radius: 12px;
+    padding: 16px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+}
+
+.historico-item-left {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+}
+
+.historico-nome {
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.historico-barra {
+    height: 8px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    width: 200px;
+}
+
+.historico-barra-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.3s;
+}
+
+.historico-item-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+.historico-responsavel {
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.historico-data {
+    color: #cbd5d8;
+    font-size: 12px;
+}
+
+.historico-item-right {
+    text-align: right;
+}
+
+.historico-prazo {
+    color: white;
+    font-size: 15px;
+    font-weight: bold;
+}
