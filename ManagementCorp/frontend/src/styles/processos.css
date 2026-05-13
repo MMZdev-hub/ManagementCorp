@@ -1,0 +1,392 @@
+.processos-page {
+    min-height: 100vh;
+    background: #5a7a82;
+    display: flex;
+    flex-direction: column;
+}
+
+.processos-content {
+    padding: 32px;
+}
+
+.processos-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+}
+
+.processos-title {
+    color: white;
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+/* MODELAGEM */
+.modelagem-card {
+    background: #4f6d73;
+    border-radius: 20px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.btn-novo-processo {
+    background: #6aadca;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 8px 20px;
+    font-size: 13px;
+    cursor: pointer;
+    align-self: flex-start;
+    transition: 0.2s;
+}
+
+.btn-novo-processo:hover {
+    background: #5a9dba;
+}
+
+.fluxo-area {
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+}
+
+.fluxo-diagram {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+.fluxo-node {
+    padding: 8px 20px;
+    border-radius: 8px;
+    color: white;
+    font-size: 13px;
+    font-weight: bold;
+    text-align: center;
+    min-width: 100px;
+}
+
+.fluxo-node.inicio  { background: #4caf50; }
+.fluxo-node.tarefa  { background: #6aadca; }
+.fluxo-node.decisao { 
+    background: #6aadca;
+    transform: rotate(0deg);
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.fluxo-node.saida   { background: #4caf50; }
+
+.fluxo-arrow {
+    color: white;
+    font-size: 18px;
+}
+
+.sugestoes-area {
+    flex: 1;
+}
+
+.sugestoes-area h4 {
+    color: white;
+    font-size: 14px;
+    margin-bottom: 12px;
+}
+
+.alerta-gargalo {
+    background: #3d5a60;
+    border-radius: 12px;
+    padding: 16px;
+    text-align: center;
+}
+
+.alerta-icon {
+    font-size: 24px;
+}
+
+.alerta-texto {
+    display: block;
+    color: #e53935;
+    font-weight: bold;
+    font-size: 13px;
+    margin: 8px 0 4px;
+}
+
+.alerta-gargalo p {
+    color: white;
+    font-size: 12px;
+}
+
+.modelagem-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+}
+
+.btn-anexar-processo {
+    background: #6aadca;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 24px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: 0.2s;
+}
+
+.btn-salvar-processo {
+    background: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 24px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    transition: 0.2s;
+}
+
+.btn-salvar-processo:hover {
+    background: #43a047;
+}
+
+/* PLANOS */
+.planos-card {
+    background: #4f6d73;
+    border-radius: 20px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.planos-search {
+    display: flex;
+    align-items: center;
+    background: #d9d9d9;
+    border-radius: 30px;
+    padding: 8px 16px;
+    gap: 8px;
+}
+
+.planos-search input {
+    border: none;
+    background: transparent;
+    outline: none;
+    font-size: 14px;
+    width: 100%;
+}
+
+.planos-filtros {
+    display: flex;
+    gap: 8px;
+}
+
+.btn-filtro {
+    background: #6f8f95;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.btn-filtro.ativo {
+    background: #4caf50;
+}
+
+.planos-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.plano-item {
+    background: #3d5a60;
+    border-radius: 12px;
+    padding: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.plano-info {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.plano-nome {
+    color: white;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.plano-tag {
+    font-size: 12px;
+    padding: 2px 10px;
+    border-radius: 10px;
+    width: fit-content;
+}
+
+.tag-pendente   { background: #e53935; color: white; }
+.tag-andamento  { background: #f0c030; color: #333; }
+.tag-concluido  { background: #4caf50; color: white; }
+
+.plano-data {
+    color: #cbd5d8;
+    font-size: 12px;
+}
+
+.plano-right {
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.plano-responsavel {
+    color: white;
+    font-size: 14px;
+}
+
+.plano-prazo {
+    color: #cbd5d8;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.novo-plano-form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 16px;
+    background: #3d5a60;
+    padding: 16px;
+    border-radius: 12px;
+}
+
+.novo-plano-form input,
+.novo-plano-form select {
+    padding: 10px 14px;
+    border-radius: 20px;
+    border: none;
+    outline: none;
+    background: #d9d9d9;
+    font-size: 14px;
+}
+
+/* ABAS */
+.abas {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.aba-btn {
+    background: #6f8f95;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 6px 20px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.aba-btn.aba-ativa {
+    background: #4caf50;
+}
+
+/* AUDITORIA CARD */
+.auditoria-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    overflow-y: auto;
+    max-height: 400px;
+}
+
+.auditoria-card-item {
+    background: #3d5a60;
+    border-radius: 12px;
+    padding: 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+}
+
+.auditoria-card-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+}
+
+.auditoria-card-nome {
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.auditoria-card-resp {
+    color: #cbd5d8;
+    font-size: 12px;
+}
+
+.auditoria-card-dept {
+    color: #cbd5d8;
+    font-size: 12px;
+}
+
+.auditoria-card-data {
+    color: white;
+    font-size: 12px;
+}
+
+.auditoria-card-acoes {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.auditoria-full-card {
+    background: #4f6d73;
+    border-radius: 20px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.select-status {
+    padding: 6px 10px;
+    border-radius: 20px;
+    border: none;
+    background: #6f8f95;
+    color: white;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.btn-deletar {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    transition: 0.2s;
+}
+
+.btn-deletar:hover {
+    transform: scale(1.2);
+}
