@@ -1,80 +1,74 @@
 package com.example.managementcorp.security;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
-import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.cors.CorsConfiguration;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
-@Configuration
-@EnableWebSecurity
-public class SecurityConfig {
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
+import org.springframework.web.filter.OncePerRequestFilter;
+
+import java.io.IOException;
+import java.util.List;
+
+@Component
+public class JwtFilter extends OncePerRequestFilter {
 
     @Autowired
-    private JwtFilter jwtFilter;
+    private JwtService jwtService;
 
-    @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) {
+
+        String path = request.getServletPath();
+
+        return path.startsWith("/auth/")
+                || path.startsWith("/h2-console")
+                || request.getMethod().equalsIgnoreCase("OPTIONS");
     }
 
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    @Override
+    protected void doFilterInternal(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            FilterChain filterChain
+    ) throws ServletException, IOException {
 
-        http
-            .csrf(csrf -> csrf.disable())
+        String authHeader = request.getHeader("Authorization");
 
-            .cors(cors -> cors.configurationSource(request -> {
-                CorsConfiguration config = new CorsConfiguration();
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
 
-                config.addAllowedOrigin("http://localhost:5173");
-                config.addAllowedOrigin("https://management-corp.vercel.app");
+            String token = authHeader.substring(7);
 
-                config.addAllowedHeader("*");
-                config.addAllowedMethod("*");
+            try {
 
-                config.setAllowCredentials(true);
+                if (jwtService.validateToken(token)) {
 
-                return config;
-            }))
+                    String email = jwtService.extractEmail(token);
 
-            .headers(headers -> headers
-                .frameOptions(frame -> frame.disable())
-            )
+                    UsernamePasswordAuthenticationToken authentication =
+                            new UsernamePasswordAuthenticationToken(
+                                    email,
+                                    null,
+                                    List.of()
+                            );
 
-            .sessionManagement(session -> session
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            )
+                    SecurityContextHolder
+                            .getContext()
+                            .setAuthentication(authentication);
+                }
 
-            .authorizeHttpRequests(auth -> auth
-                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                .requestMatchers("/auth/**").permitAll()
-                .requestMatchers("/h2-console/**").permitAll()
-                .anyRequest().authenticated()
-            )
+            } catch (Exception e) {
 
-            .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                response.getWriter().write("Token inválido");
+                return;
+            }
+        }
 
-        return http.build();
-    }
-
-    @Bean
-    public UserDetailsService userDetailsService() {
-        var user = User.withDefaultPasswordEncoder()
-            .username("admin")
-            .password("admin")
-            .roles("ADMIN")
-            .build();
-
-        return new InMemoryUserDetailsManager(user);
+        filterChain.doFilter(request, response);
     }
 }
